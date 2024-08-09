@@ -21,7 +21,7 @@ protected:
 
 
 protected:
-	UPROPERTY(VisibleDefaultsOnly, Category = "Components")
+	UPROPERTY(BlueprintReadWrite, VisibleDefaultsOnly, Category = "Components")
 	USphereComponent* SphereComp;
 	
 	UPROPERTY(VisibleDefaultsOnly, Category = "Components")
