@@ -24,3 +24,8 @@ bool UCAttributeComponent::ApplyHealthChange(float Delta)
 
 	return true;
 }
+
+bool UCAttributeComponent::IsAlive() const
+{
+	return Health > 0.f;
+}
