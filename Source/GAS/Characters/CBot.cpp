@@ -3,10 +3,14 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Components/CAttributeComponent.h"
 
 ACBot::ACBot()
 {
 	PawnSesningComp = CreateDefaultSubobject<UPawnSensingComponent>("PawnSesningComp");
+	AttributeComp = CreateDefaultSubobject<UCAttributeComponent>("AttributeComp");
+
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 void ACBot::PostInitializeComponents()
