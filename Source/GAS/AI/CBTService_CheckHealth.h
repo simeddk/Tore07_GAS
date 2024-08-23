@@ -2,23 +2,23 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTService.h"
-#include "CBTService_CheckAttackRange.generated.h"
+#include "CBTService_CheckHealth.generated.h"
 
 UCLASS()
-class GAS_API UCBTService_CheckAttackRange : public UBTService
+class GAS_API UCBTService_CheckHealth : public UBTService
 {
 	GENERATED_BODY()
 
 public:
-	UCBTService_CheckAttackRange();
-
-protected:
-	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+	UCBTService_CheckHealth();
 	
 protected:
-	UPROPERTY(EditAnywhere, Category = "AI")
-	FBlackboardKeySelector bInRangeKey;
+	virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
 
+protected:
 	UPROPERTY(EditAnywhere, Category = "AI")
-	float AttackRange;
+	FBlackboardKeySelector bLowHealthKey;
+
+	UPROPERTY(EditAnywhere, Category = "AI", meta = (ClampMax = 1.00, ClampMin = 0.00))
+	float LowHealthFraction;
 };
