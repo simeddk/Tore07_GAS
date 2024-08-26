@@ -6,6 +6,8 @@
 #include "Characters/CBot.h"
 #include "Components/CAttributeComponent.h"
 
+static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("Tore.SpawnBots"), true, TEXT("Enable spawn bots via cvar"), ECVF_Cheat);
+
 ACGameMode::ACGameMode()
 {
 	SpawnTimerDelay = 2.f;
@@ -60,6 +62,12 @@ void ACGameMode::RespawnPlayerElapsed(AController* Controller)
 
 void ACGameMode::SpawnBotTimerElapsed()
 {
+	if (!CVarSpawnBots.GetValueOnGameThread())
+	{
+		UE_LOG(LogTemp, Log, TEXT("Disabled bot spawning via CVar"));
+		return;
+	}
+
 	int32 NrOfAliveBots = 0;
 	for (TActorIterator<ACBot> It(GetWorld()); It; ++It)
 	{
