@@ -12,7 +12,10 @@ void UCActionComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+	for (TSubclassOf<UCAction> ActionClass : DefaultActions)
+	{
+		AddAction(ActionClass);
+	}
 }
 
 
@@ -20,6 +23,8 @@ void UCActionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	FString Message = GetNameSafe(GetOwner()) + " : " + ActiveGameplayTags.ToStringSimple();
+	GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::White, Message);
 }
 
 void UCActionComponent::AddAction(TSubclassOf<UCAction> ActionClass)
@@ -42,6 +47,13 @@ bool UCActionComponent::StartActionByName(AActor* Instigator, FName ActionName)
 	{
 		if (Action && Action->ActionName == ActionName)
 		{
+			if (!Action->CanStart(Instigator))
+			{
+				FString Message = FString::Printf(TEXT("Faild to run : %s"), *ActionName.ToString());
+				GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Red, Message);
+				continue;
+			}
+
 			Action->StartAction(Instigator);
 			return true;
 		}
@@ -56,8 +68,11 @@ bool UCActionComponent::StopActionByName(AActor* Instigator, FName ActionName)
 	{
 		if (Action && Action->ActionName == ActionName)
 		{
-			Action->StopAction(Instigator);
-			return true;
+			if (Action->IsRunning())
+			{
+				Action->StopAction(Instigator);
+				return true;
+			}
 		}
 	}
 
