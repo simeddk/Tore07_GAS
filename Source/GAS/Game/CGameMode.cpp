@@ -159,6 +159,7 @@ void ACGameMode::OnSpawnPickupQueryFinished(UEnvQueryInstanceBlueprintWrapper* Q
 
 	TArray<FVector> EQSLocations = QueryInstance->GetResultsAsLocations();
 
+	TArray<FVector> UsedLocations;
 	int32 SpawnCount = 0;
 
 	while (SpawnCount < MaxPickupCount && EQSLocations.Num() > 0)
@@ -166,9 +167,33 @@ void ACGameMode::OnSpawnPickupQueryFinished(UEnvQueryInstanceBlueprintWrapper* Q
 		int32 RandomLocationIndex = FMath::RandRange(0, EQSLocations.Num() - 1);
 		FVector SelectedLocation = EQSLocations[RandomLocationIndex];
 
-		SpawnCount++;
 		EQSLocations.RemoveAt(RandomLocationIndex);
 
-		//Todo.
+		bool bValidLocation = true;
+		for (FVector UsedLocation : UsedLocations)
+		{
+			float Distance = (SelectedLocation - UsedLocation).Size();
+
+			if (Distance < MinimumPickupDistance)
+			{
+				DrawDebugSphere(GetWorld(), SelectedLocation, 50.f, 20, FColor::Red, false, 10.f);
+
+				bValidLocation = false;
+				break;
+			}
+		}
+
+		if (!bValidLocation)
+		{
+			continue;
+		}
+
+		int32 RandomClassIndex = FMath::RandRange(0, PickupClassess.Num() - 1);;
+		TSubclassOf<AActor> SelectedClass = PickupClassess[RandomClassIndex];
+
+		GetWorld()->SpawnActor<AActor>(SelectedClass, SelectedLocation, FRotator::ZeroRotator);
+
+		UsedLocations.Add(SelectedLocation);
+		SpawnCount++;
 	}
 }
