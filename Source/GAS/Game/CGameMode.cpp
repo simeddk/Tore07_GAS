@@ -7,7 +7,7 @@
 #include "Components/CAttributeComponent.h"
 #include "CPlayerState.h"
 
-static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("Tore.SpawnBots"), true, TEXT("Enable spawn bots via cvar"), ECVF_Cheat);
+static TAutoConsoleVariable<bool> CVarSpawnBots(TEXT("Tore.SpawnBots"), false, TEXT("Enable spawn bots via cvar"), ECVF_Cheat);
 
 ACGameMode::ACGameMode()
 {
@@ -90,7 +90,7 @@ void ACGameMode::SpawnBotTimerElapsed()
 {
 	if (!CVarSpawnBots.GetValueOnGameThread())
 	{
-		UE_LOG(LogTemp, Log, TEXT("Disabled bot spawning via CVar"));
+		//UE_LOG(LogTemp, Log, TEXT("Disabled bot spawning via CVar"));
 		return;
 	}
 
