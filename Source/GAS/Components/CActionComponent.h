@@ -20,6 +20,7 @@ protected:
 
 public:	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	bool ReplicateSubobjects(class UActorChannel* Channel, class FOutBunch* Bunch, FReplicationFlags* RepFlags) override;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "Action")
@@ -46,6 +47,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Action")
 	TArray<TSubclassOf<UCAction>> DefaultActions;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	TArray<UCAction*> Actions;
 };
