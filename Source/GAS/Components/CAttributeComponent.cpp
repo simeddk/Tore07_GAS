@@ -88,6 +88,11 @@ void UCAttributeComponent::NetMulticastHealthChanged_Implementation(AActor* Inst
 	OnHealthChanged.Broadcast(InstigatorActor, this, NewHealth, Delta);
 }
 
+void UCAttributeComponent::NetMulticastRageChanged_Implementation(AActor* InstigatorActor, float NewRage, float Delta)
+{
+	OnRageChanged.Broadcast(InstigatorActor, this, NewRage, Delta);
+}
+
 bool UCAttributeComponent::IsAlive() const
 {
 	return Health > 0.f;
@@ -131,7 +136,7 @@ bool UCAttributeComponent::ApplyRageChange(AActor* InstigatorActor, float Delta)
 	float ActualDela = Rage - PrevRage;
 	if (!FMath::IsNearlyZero(ActualDela))
 	{
-		OnRageChanged.Broadcast(InstigatorActor, this, Rage, ActualDela);
+		NetMulticastRageChanged(InstigatorActor, Rage, ActualDela);
 	}
 
 	return !FMath::IsNearlyZero(ActualDela);
@@ -143,4 +148,7 @@ void UCAttributeComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>&
 
 	DOREPLIFETIME(UCAttributeComponent, Health);
 	DOREPLIFETIME(UCAttributeComponent, MaxHealth);
+
+	DOREPLIFETIME(UCAttributeComponent, Rage);
+	DOREPLIFETIME(UCAttributeComponent, MaxRage);
 }

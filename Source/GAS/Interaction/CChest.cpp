@@ -33,6 +33,11 @@ void ACChest::OnRep_LidOpen()
 	LidMesh->SetRelativeRotation(FRotator(CurrentPitch, 0, 0));
 }
 
+void ACChest::OnActorLoaded_Implementation()
+{
+	OnRep_LidOpen();
+}
+
 void ACChest::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
