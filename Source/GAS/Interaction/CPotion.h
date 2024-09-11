@@ -19,4 +19,10 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, Category = "Credits")
 	int32 CreditCost;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+	FText WarningMessage;
+
+	UPROPERTY(EditAnywhere, Category = "UI")
+	FText InteractionMessage;
 };
