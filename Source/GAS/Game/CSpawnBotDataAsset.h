@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -17,13 +15,18 @@ public:
 	UCSpawnBotDataAsset();
 
 public:
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override;
+
+public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawn")
 	TSubclassOf<AActor> BotClass;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawn")
-	TArray<TSubclassOf<UCAction>> ACtions;
+	TArray<TSubclassOf<UCAction>> Actions;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Spawn")
 	FLinearColor BotColor;
+
+	
 	
 };
